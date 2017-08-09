@@ -29,7 +29,7 @@ gulp.task('babel', function() {
   return browserify({
       entries,
       debug: true,
-  }).transform('babelify', {presets: ['es2015']})
+  }).transform('babelify', { presets: ['es2015'] })
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())

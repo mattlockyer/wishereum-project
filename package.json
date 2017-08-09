@@ -8,10 +8,15 @@
     "gulp-livereload": "^3.8.1",
     "gulp-sourcemaps": "^2.6.0",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "vue": "^2.4.2",
+    "vue-material": "^0.7.4"
   },
   "scripts": {
     "start": "concurrently \"testrpc\" \"gulp watch\" \"cd dist && nws\"",
     "watch": "echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   }
 }
