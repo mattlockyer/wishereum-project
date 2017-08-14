@@ -59,7 +59,7 @@ gulp.task('move', () => {
 //   'truffle migrate --all'
 // ]));
 
-//server
+//watch
 gulp.task('watch', function () {
   gulp.start(['move', 'babel']);
   livereload.listen();

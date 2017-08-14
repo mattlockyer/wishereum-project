@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Ether Wish</title>
   <meta name="description" content="The HTML5 Herald">
@@ -11,6 +12,8 @@
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/vue-material/0.7.4/vue-material.css">
+  
+  <link rel="stylesheet" href="css/app.css">
 
   <!--[if lt IE 9]>
   <link rel="stylesheet" href="css/styles.css?v=1.0">
@@ -23,38 +26,52 @@
   
   <div id="app">
     
+    
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
   
-      <h2 class="md-title">My App</h2>
+      <h2 class="md-title">Ether Wish</h2>
     </md-toolbar>
   
-    <div>
-      <md-button class="md-raised md-accent" @click="toggleRightSidenav">Toggle right</md-button>
-      <p>Open console to see the events</p>
-    </div>
-  
     <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
-      <md-toolbar class="md-large">
-        <div class="md-toolbar-container">
-          <h3 class="md-title">Sidenav content</h3>
-        </div>
-      </md-toolbar>
-  
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    </md-sidenav>
-  
-    <md-sidenav class="md-right" ref="rightSidenav" @open="open('Right')" @close="close('Right')">
+      
       <md-toolbar>
         <div class="md-toolbar-container">
-          <h3 class="md-title">Sidenav content</h3>
+          <h3 class="md-title">Settings</h3>
         </div>
       </md-toolbar>
   
-      <md-button class="md-raised md-accent" @click="closeRightSidenav">Close</md-button>
+  
+      <md-list>
+        <md-list-item>
+          Test
+        </md-list-item>
+      </md-list>
+
     </md-sidenav>
+    
+    
+    <md-layout class="margin-16">
+        
+      <md-layout md-flex="50" md-gutter>
+        
+        <md-image md-src="http://via.placeholder.com/800x600">
+        
+        </md-image>
+      
+      </md-layout>
+      
+      
+      <md-layout md-gutter>
+        <p class="md-display-1"> Improve decision models</p>
+        
+        <p class="">Use statistical modelling to identify patterns and anomalies in the data that can help you make better decisions.</p>
+      
+      </md-layout>
+    </md-layout>
+  
     
   </div>
 
