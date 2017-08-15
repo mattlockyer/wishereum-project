@@ -35,42 +35,47 @@
       <h2 class="md-title">Ether Wish</h2>
     </md-toolbar>
   
-    <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
+    <md-sidenav class="md-left" ref="leftSidenav">
       
       <md-toolbar>
         <div class="md-toolbar-container">
           <h3 class="md-title">Settings</h3>
         </div>
       </md-toolbar>
-  
-  
+      
       <md-list>
-        <md-list-item>
-          Test
+        
+        <md-list-item
+          v-for="item in menu"
+          v-bind:data="item"
+          v-bind:key="item.title"
+          @click="callFunc(item.title)"
+        >
+          {{ item.title }}
         </md-list-item>
       </md-list>
 
     </md-sidenav>
     
     
-    <md-layout class="margin-16">
+    <div class="margin-16">
+      <md-layout md-align="center" :md-gutter="true">
+          
+        <md-layout md-flex="35">
+          
+          <md-image md-src="http://placekitten.com/301/200"></md-image>
         
-      <md-layout md-flex="50" md-gutter>
+        </md-layout>
         
-        <md-image md-src="http://via.placeholder.com/800x600">
+        <md-layout md-flex="35">
+          
+          <p class="md-display-1"> Improve decision models</p>
+          <p class="">Use statistical modelling to identify patterns and anomalies in the data that can help you make better decisions.</p>
         
-        </md-image>
-      
+        </md-layout>
+        
       </md-layout>
-      
-      
-      <md-layout md-gutter>
-        <p class="md-display-1"> Improve decision models</p>
-        
-        <p class="">Use statistical modelling to identify patterns and anomalies in the data that can help you make better decisions.</p>
-      
-      </md-layout>
-    </md-layout>
+    </div>
   
     
   </div>
