@@ -5,70 +5,71 @@
 pragma solidity ^0.4.11;
 
 contract Wish {
-    
-    //External
-    uint[] public contributions;
-    
-    //Internal
-    uint internal balance;
-    address internal owner;
-    string[] internal wishes;
+  
+  //structs
+  struct WishStruct {
+    string wish;
+    uint256 amount;
+    address wisher;
+  }
+  
+  //public
+  WishStruct[] public wishes;
+  uint256 public totalWishes;
+  
+  //private
+  uint256 private balance;
+  address private owner;
+  mapping(address => uint256[]) private indicies;
+  
+  //modifiers
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
 
-    function Wish() {
-        balance = 0;
-        owner = msg.sender;
-    }
-    
-    function() payable {
-        balance += msg.value;
-    }
-    
-    function makeWish(string wish) payable returns (bool) {
-        if (msg.value < 1) revert();
-        balance += msg.value;
-        contributions.push(msg.value);
-        wishes.push(wish);
-        return true;
-    }
-    
-    /*
-    * Getters
-    */
-    
-    function getContributions() constant returns (uint[]) {
-        return contributions;
-    }
-    
-    function getContribution(uint which) constant returns (uint) {
-        return contributions[which];
-    }
-    
-    function getWish(uint which) returns (string) {
-        return wishes[which];
-    }
-    
-    /*
-    * Only Owner
-    */
-    
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-    
-    function sendBalance(address dest) onlyOwner {
-        dest.transfer(balance);
-        balance = 0;
-    }
-    
-    function getBalance() onlyOwner constant returns (uint) {
-        return balance;
-    }
+  //constructor
+  function Wish() {
+    owner = msg.sender;
+  }
+  
+  //payable
+  function() payable {
+    balance += msg.value;
+  }
+  
+  /**************************************
+  * public methods
+  **************************************/
+  function makeWish(string wish) payable returns (bool) {
+    if (msg.value < 1) revert();
+    balance += msg.value;
+    indicies[msg.sender].push(wishes.length);
+    wishes.push(WishStruct(wish, msg.value, msg.sender));
+    totalWishes = wishes.length;
+    return true;
+  }
+  
+  function getIndicies() constant returns (uint256[]) {
+    return indicies[msg.sender];
+  }
+  
+  /**************************************
+  * private (onlyOwner) methods
+  **************************************/
+  function getBalance() onlyOwner constant returns (uint256) {
+    return balance;
+  }
+  
+  function sendBalance(address dest) onlyOwner {
+    dest.transfer(balance);
+    balance = 0;
+  }
 
-    function transferOwnership(address newOwner) onlyOwner {
-        require(newOwner != address(0));
-        owner = newOwner;
-    }
+  function transferOwnership(address newOwner) onlyOwner {
+    require(newOwner != address(0));
+    owner = newOwner;
+  }
     
 }
 
