@@ -3,10 +3,10 @@
 import { getWeb3, getAccounts, getContract } from '../web3-utils';
 import Wish from '../../../build/contracts/Wish.json';
 
+
 export default {
   data() {
     return {
-      wishes: [],
       wish: 'Test Wish ' + Date.now(),
       amount: 0.001,
     };
@@ -16,26 +16,19 @@ export default {
     (async() => {
       getWeb3();
       this.accounts = await getAccounts();
-      const contract = this.contract = await getContract(Wish);
-      //get wishes
-      const totalWishes = (await contract.totalWishes.call()).toNumber();
-      console.log(totalWishes);
-      for (let i = totalWishes - 1; i >= Math.max(totalWishes - 10, 0); i--) {
-        this.wishes.push(await contract.wishes.call(i));
-      }
-      console.log(this.wishes);
+      this.contract = await getContract(Wish);
     })();
     //jshint ignore:end
   },
   methods: {
     submit() {
-      console.log(this.wish, this.amount);
       //jshint ignore:start
       (async() => {
         try {
           const tx = await this.contract.makeWish(this.wish, {
             from: this.accounts[0],
-            value: web3.toWei(this.amount, 'ether')
+            value: web3.toWei(this.amount, 'ether'),
+            gas: 500000
           });
           console.log(tx);
         } catch (e) {
@@ -73,14 +66,6 @@ export default {
           
         </md-layout>
         
-        <md-layout md-flex="35" md-flex-xsmall="80">
-        
-          <div v-for="wish in wishes">
-            <p>{{ wish[0] }} - {{ wish[1] }}</p>
-            <p>{{ wish[2] }}</p>
-          </div>
-        
-        </md-layout>
       </md-layout>
     </div>
   `

@@ -29,11 +29,8 @@ const VueApp = new Vue({
     menu: []
   },
   methods: {
-    init() {
-      
-    },
-    callFunc(fn) {
-      
+    closeNav() {
+      setTimeout(() => this.$refs.leftSidenav.close(), 100);
     },
     toggleLeftSidenav() {
       this.$refs.leftSidenav.toggle();

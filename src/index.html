@@ -44,11 +44,15 @@
         <md-list md-theme="second">
           
           <md-list-item>
-            <router-link to="/" exact>Home</router-link>
+            <router-link to="/" exact v-on:click.native="closeNav">Make a Wish</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/about" exact>About</router-link>
+            <router-link to="/wish" exact v-on:click.native="closeNav">Wishes</router-link>
+          </md-list-item>
+          
+          <md-list-item>
+            <router-link to="/about" exact v-on:click.native="closeNav">About</router-link>
           </md-list-item>
           
         </md-list>
