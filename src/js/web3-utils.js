@@ -14,6 +14,7 @@ const getWeb3 = (web3 = window.web3) => {
     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
   window.web3 = web3;
+  console.log(web3);
   return web3;
 };
 /**************************************
@@ -46,19 +47,22 @@ const getNetwork = (web3 = window.web3) => new Promise((resolve, reject) => {
 **************************************/
 const getAccounts = (web3 = window.web3) => new Promise((resolve, reject) => {
   if (!web3) reject('No web3 instance provided');
-  const accounts = web3.eth.accounts;
-  let tries = 0;
+  //checking for accounts, keep track of attempts
+  let accounts, attempts = 0;
+  //limit attempts
   const limit = 5;
+  //check function
   const check = () => {
+    accounts = web3.eth.accounts;
     if (accounts.length > 0) {
       resolve(accounts);
     } else {
-      tries++;
-      if (tries === limit) {
+      attempts++;
+      if (attempts === limit) {
         reject('accounts could not be found on web3 provider');
         return;
       }
-      setTimeout(check, 200);
+      setTimeout(check, 200); //found no accounts, below attempt limit, check again
     }
   };
   check();

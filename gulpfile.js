@@ -19,8 +19,8 @@ const browserify = require('browserify');
 /**************************************
 * Sources
 **************************************/
-const staticSources = ['./src/**/*', '!./src/js/*.js'];
-const jsSources = ['./src/js/*.js'];
+const staticSources = ['./src/**/*', './static/**/*', '!./src/**/*.js'];
+const jsSources = ['./src/**/*.js'];
 const entries = './src/js/app.js';
 /**************************************
 * Tasks

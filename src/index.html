@@ -32,15 +32,26 @@
         <md-icon>menu</md-icon>
       </md-button>
   
-      <h2 class="md-title">Ether Wish</h2>
+      <h2 class="md-title">Wishereum</h2>
     </md-toolbar>
   
     <md-sidenav class="md-left" ref="leftSidenav">
       
       <md-toolbar>
         <div class="md-toolbar-container">
-          <h3 class="md-title">Settings</h3>
+          <h3 class="md-title">Wishereum</h3>
         </div>
+        <md-list md-theme="second">
+          
+          <md-list-item>
+            <router-link to="/" exact>Home</router-link>
+          </md-list-item>
+          
+          <md-list-item>
+            <router-link to="/about" exact>About</router-link>
+          </md-list-item>
+          
+        </md-list>
       </md-toolbar>
       
       <md-list>
@@ -58,29 +69,14 @@
     </md-sidenav>
     
     
-    <div class="margin-16">
-      <md-layout md-align="center" :md-gutter="true">
-          
-        <md-layout md-flex="35">
-          
-          <md-image md-src="http://placekitten.com/301/200"></md-image>
-        
-        </md-layout>
-        
-        <md-layout md-flex="35">
-          
-          <p class="md-display-1"> Improve decision models</p>
-          <p class="">Use statistical modelling to identify patterns and anomalies in the data that can help you make better decisions.</p>
-        
-        </md-layout>
-        
-      </md-layout>
-    </div>
+    <router-view></router-view>
   
     
   </div>
 
   
+  <script src="lib/vue.min.js"></script>
+  <script src="lib/vue-router.min.js"></script>
   <script src="lib/web3.js"></script>
   <script src="lib/truffle-contract.js"></script>
   

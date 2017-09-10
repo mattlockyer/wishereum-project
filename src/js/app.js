@@ -1,34 +1,39 @@
 
 
 //app.js
-import Vue from 'vue';
 import VueMaterial from 'vue-material';
-import { getWeb3, getContract } from './web3-utils';
-import Wish from '../../build/contracts/Wish.json';
+import { router } from './router';
 
+Vue.use(VueRouter);
 Vue.use(VueMaterial);
 
-const App = {};
+Vue.material.registerTheme('default', {
+  primary: 'white',
+  accent: 'blue',
+  warn: 'orange',
+  background: 'white'
+});
+
+Vue.material.registerTheme('second', {
+  primary: 'blue',
+  accent: 'blue',
+  warn: 'orange',
+  background: 'white'
+});
+
 
 const VueApp = new Vue({
   el: '#app',
+  router,
   data: {
     menu: []
   },
   methods: {
     init() {
-      App.web3 = getWeb3();
-      getContract(Wish).then((wish) => {
-        App.contract = wish;
-        // Object.keys(wish).forEach((k) => {
-        //   if (typeof wish[k] === 'function') this.menu.push({ title: k });
-        // });
-      });
+      
     },
     callFunc(fn) {
-      App.contract[fn].call().then((res) => {
-        console.log(res);
-      });
+      
     },
     toggleLeftSidenav() {
       this.$refs.leftSidenav.toggle();
