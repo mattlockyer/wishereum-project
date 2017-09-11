@@ -10,18 +10,20 @@ export default {
   
   created() {
     //jshint ignore:start
+    let attempts = 0;
+    const limit = 10;
     const check = async() => {
+      attempts++;
       const contract = APP.contract;
       if (!contract) {
+        if (attempts === limit) return;
         console.log('checking again');
         setTimeout(check, 500);
         return;
       }
       //get wishes
       const totalWishes = (await contract.totalWishes.call()).toNumber();
-      
-      console.log(totalWishes);
-      
+      console.log('wishes found', totalWishes);
       for (let i = totalWishes - 1; i >= Math.max(totalWishes - 10, 0); i--) {
         this.wishes.push(await contract.wishes.call(i));
       }
