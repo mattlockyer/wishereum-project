@@ -1,32 +1,39 @@
 
 
-import { getWeb3, getAccounts, getContract } from '../web3-utils';
-import Wish from '../../../build/contracts/Wish.json';
-
-
 export default {
+  
   data() {
     return {
       wishes: [],
     };
   },
+  
   created() {
     //jshint ignore:start
-    (async() => {
-      getWeb3();
-      this.accounts = await getAccounts();
-      const contract = this.contract = await getContract(Wish);
+    const check = async() => {
+      const contract = APP.contract;
+      if (!contract) {
+        console.log('checking again');
+        setTimeout(check, 500);
+        return;
+      }
       //get wishes
       const totalWishes = (await contract.totalWishes.call()).toNumber();
+      
+      console.log(totalWishes);
+      
       for (let i = totalWishes - 1; i >= Math.max(totalWishes - 10, 0); i--) {
         this.wishes.push(await contract.wishes.call(i));
       }
-    })();
+    };
+    check();
     //jshint ignore:end
   },
+  
   methods: {
     
   },
+  
   template: `
     <div class="margin-16">
       <md-layout md-align="center" :md-gutter="true">

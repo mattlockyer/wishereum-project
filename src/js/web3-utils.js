@@ -14,7 +14,6 @@ const getWeb3 = (web3 = window.web3) => {
     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
   window.web3 = web3;
-  console.log(web3);
   return web3;
 };
 /**************************************
@@ -74,6 +73,16 @@ const getContract = (json, address, web3 = window.web3) => {
   const contract = TruffleContract(json);
   contract.setProvider(web3.currentProvider);
   return address ? contract.at(address) : contract.deployed();
+};
+/**************************************
+* Deploy Contract
+**************************************/
+const deployContract = (json, from, gas) => {
+  const contract = TruffleContract(json);
+  contract.setProvider(web3.currentProvider);
+  contract.new({
+    from, gas
+  });
 };
 /**************************************
 * Exports

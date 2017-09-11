@@ -1,34 +1,23 @@
 
 
-import { getWeb3, getAccounts, getContract } from '../web3-utils';
-import Wish from '../../../build/contracts/Wish.json';
-
-
 export default {
+  
   data() {
     return {
       wish: 'Test Wish ' + Date.now(),
       amount: 0.001,
     };
   },
-  created() {
-    //jshint ignore:start
-    (async() => {
-      getWeb3();
-      this.accounts = await getAccounts();
-      this.contract = await getContract(Wish);
-    })();
-    //jshint ignore:end
-  },
+  
   methods: {
     submit() {
       //jshint ignore:start
       (async() => {
         try {
-          const tx = await this.contract.makeWish(this.wish, {
-            from: this.accounts[0],
+          const tx = await APP.contract.makeWish(this.wish, {
+            from: APP.accounts[0],
             value: web3.toWei(this.amount, 'ether'),
-            gas: 500000
+            gas: 250000
           });
           console.log(tx);
         } catch (e) {
@@ -38,6 +27,7 @@ export default {
       //jshint ignore:end
     }
   },
+  
   template: `
     <div class="margin-16">
       <md-layout md-align="center" :md-gutter="true">

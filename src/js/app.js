@@ -3,30 +3,35 @@
 //app.js
 import VueMaterial from 'vue-material';
 import { router } from './router';
+import Theme from './theme';
+
+import { getWeb3, getAccounts, getContract } from './web3-utils';
+import wishJSON from '../../build/contracts/Wish.json';
+//import deployer from './tests/deploy-wish';
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 
-Vue.material.registerTheme('default', {
-  primary: 'white',
-  accent: 'blue',
-  warn: 'orange',
-  background: 'white'
-});
+Theme.init();
 
-Vue.material.registerTheme('second', {
-  primary: 'blue',
-  accent: 'blue',
-  warn: 'orange',
-  background: 'white'
-});
-
+const APP = window.APP = {};
+//jshint ignore:start
+APP.init = async() => {
+  getWeb3();
+  APP.accounts = await getAccounts();
+  APP.contract = getContract(wishJSON, '0x6fD022CfF6d7512B6E662014662DCd467BBA9BcA');
+  //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
+};
+//jshint ignore:end
 
 const VueApp = new Vue({
   el: '#app',
   router,
   data: {
     menu: []
+  },
+  created() {
+    setTimeout(() => APP.init(), 500);
   },
   methods: {
     closeNav() {
@@ -38,4 +43,3 @@ const VueApp = new Vue({
   }
 });
 
-window.onload = () => VueApp.init();
