@@ -44,19 +44,19 @@
         <md-list md-theme="second">
           
           <md-list-item>
-            <router-link to="/about" exact v-on:click.native="closeNav">About</router-link>
+            <router-link to="/about" exact v-on:click.native="updateRoute">About</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/" exact v-on:click.native="closeNav">Make a Wish</router-link>
+            <router-link to="/" exact v-on:click.native="updateRoute">Make a Wish</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/userwishes" exact v-on:click.native="closeNav">My Wishes</router-link>
+            <router-link to="/userwishes" exact v-on:click.native="updateRoute">My Wishes</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/wishes" exact v-on:click.native="closeNav">Recent Wishes</router-link>
+            <router-link to="/wishes" exact v-on:click.native="updateRoute">Recent Wishes</router-link>
           </md-list-item>
           
         </md-list>

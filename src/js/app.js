@@ -19,15 +19,6 @@ Vue.use(VueMaterial);
 Theme.init();
 
 const APP = window.APP = {};
-//jshint ignore:start
-APP.init = async() => {
-  getWeb3();
-  APP.accounts = await getAccounts();
-  APP.network = await getNetwork();
-  APP.contract = getContract(wishJSON, network[APP.network.id]);
-  //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
-};
-//jshint ignore:end
 
 const VueApp = new Vue({
   el: '#app',
@@ -39,7 +30,8 @@ const VueApp = new Vue({
     setTimeout(() => APP.init(), 500);
   },
   methods: {
-    closeNav() {
+    updateRoute() {
+      this.$emit('finished');
       setTimeout(() => this.$refs.leftSidenav.close(), 100);
     },
     toggleLeftSidenav() {
@@ -48,3 +40,23 @@ const VueApp = new Vue({
   }
 });
 
+//jshint ignore:start
+APP.init = async() => {
+  getWeb3();
+  APP.accounts = await getAccounts();
+  //check user
+  let user = APP.user = await localforage.getItem('wishereum-user');
+  if (user !== APP.accounts[0]) {
+    console.log('user changed');
+    user = APP.user = APP.accounts[0];
+    await localforage.setItem('wishereum-user', user);
+    await localforage.setItem('wishereum-userwishes', {});
+  }
+  //get network
+  APP.network = await getNetwork();
+  APP.contract = await getContract(wishJSON, network[APP.network.id]);
+  //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
+  
+  VueApp.$emit('finished');
+};
+//jshint ignore:end

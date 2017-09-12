@@ -10,18 +10,18 @@ export default {
     };
   },
   
+  
   created() {
-    this.update();
+    this.$parent.$on('finished', () => {
+      localforage.getItem('wishereum-wishes').then((wishes) => {
+        this.wishes = wishes || {};
+        this.update();
+      });
+    });
   },
   
   methods: {
     update() {
-      localforage.getItem('wishereum-wishes').then((wishes) => {
-        this.wishes = wishes || {};
-        this.fetch();
-      });
-    },
-    fetch() {
       let attempts = 0;
       const limit = 10;
       //jshint ignore:start

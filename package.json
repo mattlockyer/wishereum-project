@@ -12,8 +12,8 @@
     "vue-material": "^0.7.4"
   },
   "scripts": {
-    "start": "concurrently \"testrpc\" \"gulp watch\" \"cd dist && nws\"",
-    "norpc": "concurrently \"gulp watch\" \"cd dist && nws\"",
+    "start": "concurrently \"gulp watch\" \"cd dist && nws\"",
+    "rpc": "concurrently \"testrpc\" \"gulp watch\" \"cd dist && nws\"",
     "watch": "echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p"
   }
 }

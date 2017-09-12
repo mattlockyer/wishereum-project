@@ -11,17 +11,16 @@ export default {
   },
   
   created() {
-    this.update();
+    this.$parent.$on('finished', () => {
+      localforage.getItem('wishereum-userwishes').then((wishes) => {
+        this.wishes = wishes || {};
+        this.update();
+      });
+    });
   },
   
   methods: {
     update() {
-      localforage.getItem('wishereum-userwishes').then((wishes) => {
-        this.wishes = wishes || {};
-        this.fetch();
-      });
-    },
-    fetch() {
       let attempts = 0;
       const limit = 10;
       //jshint ignore:start
@@ -34,13 +33,14 @@ export default {
           setTimeout(check, 500);
           return;
         }
-        //get wish indicies for specific user
+        
+        const wishes = this.wishes;
+        //go fetch remote wishes
         const indicies = await contract.getIndicies.call();
         //loop each user indicies
         for (let k in indicies) {
-          
           const i = indicies[k].toNumber();
-          
+          //if we don't have the wish, fetch it remotely
           if (this.wishes[i] === undefined) {
             console.log('fetching wish', i);
             const wish = await contract.wishes.call(i);
@@ -51,10 +51,12 @@ export default {
             console.log('local wish', i);
           }
         }
+        
         localforage.setItem('wishereum-userwishes', this.wishes).then(() => {
           console.log('stored wishes locally');
         });
         this.$forceUpdate();
+        
       };
       //jshint ignore:end
       check();
