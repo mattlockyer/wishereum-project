@@ -29,10 +29,10 @@ export default {
   },
   
   template: `
-    <div class="margin-16">
+    <div class="page">
       <md-layout md-align="center" :md-gutter="true">
       
-        <md-layout md-flex="35" md-flex-xsmall="80">
+        <md-layout md-flex="35" md-flex-xsmall="80" md-align="center">
         
           <div>
             <md-image md-src="/img/well.jpg"></md-image>

@@ -27,7 +27,7 @@
   <div id="app">
     
     
-    <md-toolbar>
+    <md-toolbar class="toolbar width-100">
       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
@@ -44,15 +44,19 @@
         <md-list md-theme="second">
           
           <md-list-item>
+            <router-link to="/about" exact v-on:click.native="closeNav">About</router-link>
+          </md-list-item>
+          
+          <md-list-item>
             <router-link to="/" exact v-on:click.native="closeNav">Make a Wish</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/wish" exact v-on:click.native="closeNav">Wishes</router-link>
+            <router-link to="/wish" exact v-on:click.native="closeNav">My Wishes</router-link>
           </md-list-item>
           
           <md-list-item>
-            <router-link to="/about" exact v-on:click.native="closeNav">About</router-link>
+            <router-link to="/wish" exact v-on:click.native="closeNav">Recent Wishes</router-link>
           </md-list-item>
           
         </md-list>
@@ -71,7 +75,6 @@
       </md-list>
 
     </md-sidenav>
-    
     
     <router-view></router-view>
   

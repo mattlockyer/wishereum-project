@@ -35,13 +35,17 @@ export default {
         //get wishes
         const totalWishes = (await contract.totalWishes.call()).toNumber();
         //loop through and fetch each wish from the blockchain, if we don't already have it stored locally
-        
-        //TODO What to do with BigNumber types?
-        
         for (let i = totalWishes - 1; i >= 0; i--) {
-          if (this.wishes[i] === undefined) this.wishes[i] = await contract.wishes.call(i);
+          if (this.wishes[i] === undefined) {
+            console.log('fetching wish', i);
+            const wish = await contract.wishes.call(i);
+            //convert contribution to ether amount
+            wish[1] = web3.fromWei(wish[1], 'ether').toNumber();
+            this.wishes[i] = wish;
+          } else {
+            console.log('local wish', i);
+          }
         }
-        
         localforage.setItem('wishereum-wishes', this.wishes).then(() => {
           console.log('stored wishes locally');
         });
@@ -53,21 +57,21 @@ export default {
   },
   
   template: `
-    <div class="margin-16">
+    <div class="page">
       <md-layout md-align="center" :md-gutter="true">
       
-        <md-layout md-flex="35" md-flex-xsmall="80">
+        <md-layout md-flex="35" md-flex-xsmall="80" md-align="center">
         
           <div>
             <md-image md-src="/img/well.jpg"></md-image>
           </div>
       
-      
-          <div v-for="(wish, key) in wishes">
-            <p>{{ wish[0] }}</p>
-            <p>{{ wish[1] }}</p>
-            <p>{{ wish[2] }}</p>
-          </div>
+          
+          <md-whiteframe md-elevation="1" v-for="(wish, key) in wishes" class="whiteframe">
+            <div class="wish">{{ wish[0] }}</div>
+            <div class="amount">{{ wish[1] }} ETH</div>
+            <div class="address">From: {{ wish[2] }}</div>
+          </md-whiteframe>
           
         </md-layout>
       </md-layout>
