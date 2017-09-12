@@ -1,5 +1,7 @@
 
 
+import template from '../templates/wish-template.js';
+
 export default {
   
   data() {
@@ -14,7 +16,7 @@ export default {
   
   methods: {
     update() {
-      localforage.getItem('wishereum-wishes').then((wishes) => {
+      localforage.getItem('wishereum-userwishes').then((wishes) => {
         this.wishes = wishes || {};
         this.fetch();
       });
@@ -32,10 +34,13 @@ export default {
           setTimeout(check, 500);
           return;
         }
-        //get wishes
-        const totalWishes = (await contract.totalWishes.call()).toNumber();
-        //loop through and fetch each wish from the blockchain, if we don't already have it stored locally
-        for (let i = totalWishes - 1; i >= 0; i--) {
+        //get wish indicies for specific user
+        const indicies = await contract.getIndicies.call();
+        //loop each user indicies
+        for (let k in indicies) {
+          
+          const i = indicies[k].toNumber();
+          
           if (this.wishes[i] === undefined) {
             console.log('fetching wish', i);
             const wish = await contract.wishes.call(i);
@@ -46,7 +51,7 @@ export default {
             console.log('local wish', i);
           }
         }
-        localforage.setItem('wishereum-wishes', this.wishes).then(() => {
+        localforage.setItem('wishereum-userwishes', this.wishes).then(() => {
           console.log('stored wishes locally');
         });
         this.$forceUpdate();
@@ -56,25 +61,5 @@ export default {
     }
   },
   
-  template: `
-    <div class="page">
-      <md-layout md-align="center" :md-gutter="true">
-      
-        <md-layout md-flex="35" md-flex-xsmall="80" md-align="center">
-        
-          <div>
-            <md-image md-src="/img/well.jpg"></md-image>
-          </div>
-      
-          
-          <md-whiteframe md-elevation="1" v-for="(wish, key) in wishes" class="whiteframe">
-            <div class="wish">{{ wish[0] }}</div>
-            <div class="amount">{{ wish[1] }} ETH</div>
-            <div class="address">From: {{ wish[2] }}</div>
-          </md-whiteframe>
-          
-        </md-layout>
-      </md-layout>
-    </div>
-  `
+  template
 };
