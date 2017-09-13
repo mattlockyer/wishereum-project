@@ -9,10 +9,11 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
   
+  
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
   <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/vue-material/0.7.4/vue-material.css">
-  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/vue-material/0.7.5/vue-material.css">
+
   <link rel="stylesheet" href="css/app.css">
 
   <!--[if lt IE 9]>
@@ -26,46 +27,50 @@
   
   <div id="app">
     
+    <div ref="loader" class="loader">
+      <img src="img/loader.gif" />
+    </div>
     
-    <md-toolbar class="toolbar width-100">
-      <md-button class="md-icon-button" @click="toggleLeftSidenav">
-        <md-icon>menu</md-icon>
-      </md-button>
-  
-      <h2 class="md-title">Wishereum</h2>
-    </md-toolbar>
-  
-    <md-sidenav class="md-left" ref="leftSidenav">
-      
-      <md-toolbar>
-        <div class="md-toolbar-container">
-          <h3 class="md-title">Wishereum</h3>
-        </div>
-        <md-list md-theme="second">
-          
-          <md-list-item>
-            <router-link to="/about" exact v-on:click.native="updateRoute">About</router-link>
-          </md-list-item>
-          
-          <md-list-item>
-            <router-link to="/" exact v-on:click.native="updateRoute">Make a Wish</router-link>
-          </md-list-item>
-          
-          <md-list-item>
-            <router-link to="/userwishes" exact v-on:click.native="updateRoute">My Wishes</router-link>
-          </md-list-item>
-          
-          <md-list-item>
-            <router-link to="/wishes" exact v-on:click.native="updateRoute">Recent Wishes</router-link>
-          </md-list-item>
-          
-        </md-list>
+    <div ref="content" class="hidden">
+      <md-toolbar class="toolbar width-100">
+        <md-button class="md-icon-button" @click="toggleLeftSidenav">
+          <md-icon>menu</md-icon>
+        </md-button>
+    
+        <h2 class="md-title">Wishereum</h2>
       </md-toolbar>
-
-    </md-sidenav>
     
-    <router-view></router-view>
+      <md-sidenav class="md-left" ref="leftSidenav">
+        
+        <md-toolbar class="side-nav">
+          <div class="md-toolbar-container">
+            <h3 class="md-title">Wishereum</h3>
+          </div>
+          <md-list md-theme="second">
+            
+            <md-list-item>
+              <router-link to="/about" exact v-on:click.native="updateRoute">About</router-link>
+            </md-list-item>
+            
+            <md-list-item>
+              <router-link to="/" exact v-on:click.native="updateRoute">Make a Wish</router-link>
+            </md-list-item>
+            
+            <md-list-item>
+              <router-link to="/userwishes" exact v-on:click.native="updateRoute">My Wishes</router-link>
+            </md-list-item>
+            
+            <md-list-item>
+              <router-link to="/wishes" exact v-on:click.native="updateRoute">Recent Wishes</router-link>
+            </md-list-item>
+            
+          </md-list>
+        </md-toolbar>
   
+      </md-sidenav>
+      
+      <router-view></router-view>
+    </div>
     
   </div>
 

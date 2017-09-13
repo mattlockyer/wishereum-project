@@ -13,8 +13,8 @@ export default {
   },
   
   created() {
-    this.$parent.$off('updateMain');
-    this.$parent.$on('updateMain', () => this.updateCost(''));
+    this.$parent.$off('updateCost');
+    this.$parent.$on('updateCost', () => this.updateCost(''));
   },
   
   methods: {

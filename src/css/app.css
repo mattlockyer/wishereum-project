@@ -1,5 +1,15 @@
 
 
+.hidden {
+  display:none;
+}
+
+.loader {
+  text-align:center;
+  margin-top:25vh;
+  transform:scale(0.5, 0.5);
+}
+
 .page {
   margin:16px;
   margin-top:80px;
@@ -13,9 +23,15 @@
   text-align:center;
 }
 
-.md-sidenav-content, .md-sidenav-backdrop {
-  position:relative;
-  margin-top:-80px;
+.md-sidenav {
+  position:fixed;
+  top:0; left:0;
+  z-index:99;
+  height:100vh;
+}
+
+.md-sidenav-backdrop {
+  width:100vw;
 }
 
 .toolbar {
