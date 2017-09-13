@@ -61,18 +61,6 @@
           
         </md-list>
       </md-toolbar>
-      
-      <md-list>
-        
-        <md-list-item
-          v-for="item in menu"
-          v-bind:data="item"
-          v-bind:key="item.title"
-          @click="callFunc(item.title)"
-        >
-          {{ item.title }}
-        </md-list-item>
-      </md-list>
 
     </md-sidenav>
     

@@ -1,7 +1,5 @@
 
 
-
-
 .page {
   margin:16px;
   margin-top:80px;
@@ -16,15 +14,12 @@
 }
 
 .md-sidenav-content, .md-sidenav-backdrop {
+  position:relative;
   margin-top:-80px;
 }
 
-
 .toolbar {
   background:rgba(255, 255, 255, 0.84) !important;
-}
-
-.md-toolbar {
   position:fixed;
   top:0; left:0;
   z-index:99;
@@ -56,6 +51,7 @@
 .wish {
   padding:4px 0;
   font-style:italic;
+  overflow-wrap: break-word;
 }
 
 .amount {

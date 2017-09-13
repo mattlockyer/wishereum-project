@@ -15,7 +15,6 @@ const network = {
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
-
 Theme.init();
 
 const APP = window.APP = {};
@@ -30,8 +29,11 @@ const VueApp = new Vue({
     setTimeout(() => APP.init(), 500);
   },
   methods: {
+    update() {
+      this.$emit('update');
+    },
     updateRoute() {
-      this.$emit('finished');
+      this.update();
       setTimeout(() => this.$refs.leftSidenav.close(), 100);
     },
     toggleLeftSidenav() {
@@ -42,6 +44,8 @@ const VueApp = new Vue({
 
 //jshint ignore:start
 APP.init = async() => {
+  const ethInfo = fetch('https://coinmarketcap-nexuist.rhcloud.com/api/eth').then((res) => res.json());
+  
   getWeb3();
   APP.accounts = await getAccounts();
   //check user
@@ -57,6 +61,10 @@ APP.init = async() => {
   APP.contract = await getContract(wishJSON, network[APP.network.id]);
   //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
   
-  VueApp.$emit('finished');
+  VueApp.update();
+  
+  APP.ethusd = (await ethInfo).price.usd;
+  
+  VueApp.$emit('updateMain');
 };
 //jshint ignore:end
