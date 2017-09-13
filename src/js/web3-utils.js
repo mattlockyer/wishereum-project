@@ -6,13 +6,17 @@
 /**************************************
 * Get Web3
 **************************************/
-const getWeb3 = (web3 = window.web3) => {
+const getWeb3 = (fallbackURL = 'http://localhost:8545') => {
   if (web3 !== undefined) {
     web3 = new Web3(web3.currentProvider);
   } else {
-    //web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/"));
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    web3 = new Web3(new Web3.providers.HttpProvider(fallbackURL));
   }
+  window.web3 = web3;
+  return web3;
+};
+const setWeb3 = (url = 'http://localhost:8545') => {
+  web3 = new Web3(new Web3.providers.HttpProvider(url));
   window.web3 = web3;
   return web3;
 };
@@ -87,8 +91,9 @@ const deployContract = (json, from, gas) => {
 /**************************************
 * Exports
 **************************************/
-export {
+export default {
   getWeb3,
+  setWeb3,
   getNetwork,
   getAccounts,
   getContract

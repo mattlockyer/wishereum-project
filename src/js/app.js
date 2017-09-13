@@ -2,10 +2,11 @@
 
 //app.js
 import VueMaterial from 'vue-material';
-import { router } from './router';
+import router from './router';
 import Theme from './theme';
 
-import { getWeb3, getNetwork, getAccounts, getContract } from './web3-utils';
+import utils from './web3-utils';
+
 import wishJSON from '../../build/contracts/Wish.json';
 //import deployer from './tests/deploy-wish';
 
@@ -39,8 +40,15 @@ const VueApp = new Vue({
       
       const ethInfo = fetch('https://coinmarketcap-nexuist.rhcloud.com/api/eth').then((res) => res.json());
       
-      getWeb3();
-      APP.accounts = await getAccounts();
+      utils.getWeb3('https://rinkeby.infura.io/');
+      //get network
+      APP.network = await utils.getNetwork();
+      if (APP.network.id !== 4) utils.setWeb3('https://rinkeby.infura.io/');
+      try {
+        APP.accounts = await utils.getAccounts();
+      } catch(e) {
+        APP.accounts = ['0x'];
+      }
       //check user
       let user = APP.user = await localforage.getItem('wishereum-user');
       if (user !== APP.accounts[0]) {
@@ -49,15 +57,16 @@ const VueApp = new Vue({
         await localforage.setItem('wishereum-user', user);
         await localforage.setItem('wishereum-userwishes', {});
       }
-      //get network
-      APP.network = await getNetwork();
-      APP.contract = await getContract(wishJSON, network[APP.network.id]);
+      
+      try {
+        APP.contract = await utils.getContract(wishJSON, network[APP.network.id]);
+      } catch(e) {
+        console.log('wrong network');
+      }
       //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
       
       this.$emit('update');
-      
       APP.ethusd = (await ethInfo).price.usd;
-      
       this.$emit('updateCost');
     },
     //jshint ignore:end
