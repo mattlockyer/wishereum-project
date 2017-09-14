@@ -44,12 +44,16 @@
         
         <md-toolbar class="side-nav">
           <div class="md-toolbar-container">
-            <h3 class="md-title">Wishereum</h3>
+            <router-link to="/" exact v-on:click.native="updateRoute">
+              <h3 class="md-title">Wishereum</h3>
+            </router-link>
           </div>
           <md-list md-theme="second">
             
             <md-list-item v-for="item in menu" v-if="item.visible">
-              <router-link :to="item.path" exact v-on:click.native="updateRoute">{{ item.label }}</router-link>
+              <router-link :to="item.path" exact v-on:click.native="updateRoute">
+                {{ item.label }}
+              </router-link>
             </md-list-item>
             
           </md-list>
@@ -58,6 +62,11 @@
       </md-sidenav>
       
       <router-view></router-view>
+      
+      <md-snackbar ref="snackbar" md-position="bottom center" md-duration="3000">
+        <span>{{ snackbarMessage }}</span>
+      </md-snackbar>
+      
     </div>
     
   </div>

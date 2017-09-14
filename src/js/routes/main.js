@@ -74,7 +74,7 @@ export default {
               <md-input ref="amount" v-model="amount" v-on:change="updateCost" type="number" step="0.001" placeholder="0.001"></md-input>
             </md-input-container>
             
-            <md-button v-on:click="submit">Make Wish</md-button>
+            <md-button v-on:click="submit" class="md-raised">Make Wish</md-button>
             
             <md-layout md-align="center">
               <md-layout md-flex="25">

@@ -6,8 +6,8 @@ export default `
     
       <md-layout md-flex="35" md-flex-xsmall="80" md-align="center">
       
-        <div>
-          <md-image md-src="/img/well.jpg"></md-image>
+        <div class="well-badge">
+          <md-image md-src="/img/well.png"></md-image>
         </div>
     
         <router-link v-for="(wish, key) in wishes" :to="'/wish/' + key" exact>
