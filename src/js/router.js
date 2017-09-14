@@ -7,11 +7,11 @@ import Wishes from './routes/wishes.js';
 import UserWish from './routes/userwishes.js';
 
 const routes = [
-  { path: '/about', component: About },
-  { path: '/', component: Main },
-  { path: '/wish/:id', component: Wish },
-  { path: '/userwishes', component: UserWish },
-  { path: '/wishes', component: Wishes },
+  { path: '/about', component: About, label: 'About', visible: true },
+  { path: '/', component: Main, label: 'Make a Wish', visible: true },
+  { path: '/userwishes', component: UserWish, label: 'My Wishes', visible: true },
+  { path: '/wishes', component: Wishes, label: 'Recent Wishes', visible: true },
+  { path: '/wish/:id', component: Wish, label: 'Wish', visible: false },
 ];
 
 const router = new VueRouter({ routes });

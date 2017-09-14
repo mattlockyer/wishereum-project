@@ -10,24 +10,29 @@ import utils from './web3-utils';
 import wishJSON from '../../build/contracts/Wish.json';
 //import deployer from './tests/deploy-wish';
 
-const network = {
-  4: '0x6fD022CfF6d7512B6E662014662DCd467BBA9BcA'
-};
-
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Theme.init();
 
-const APP = window.APP = {};
+const APP = window.APP = {
+  network: {
+    id: 4,
+    name: 'rinkeby',
+    url: 'https://rinkeby.infura.io/'
+  },
+  contractAddress: '0x6fD022CfF6d7512B6E662014662DCd467BBA9BcA'
+};
+
+console.log(router);
 
 const VueApp = new Vue({
   el: '#app',
   router,
   data: {
-    menu: []
+    menu: router.options.routes
   },
   created() {
-    setTimeout(() => this.init(), 250);
+    setTimeout(() => this.init(), 500);
   },
   mounted() {
     this.$refs.loader.classList.add('hidden');
@@ -40,10 +45,15 @@ const VueApp = new Vue({
       
       const ethInfo = fetch('https://coinmarketcap-nexuist.rhcloud.com/api/eth').then((res) => res.json());
       
-      utils.getWeb3('https://rinkeby.infura.io/');
+      utils.getWeb3(APP.network.url);
       //get network
-      APP.network = await utils.getNetwork();
-      if (APP.network.id !== 4) utils.setWeb3('https://rinkeby.infura.io/');
+      const network = await utils.getNetwork();
+      if (network.id !== 4) {
+        console.log('MetaMask: wrong network');
+        this.menu[1].visible = false;
+        this.menu[2].visible = false;
+        utils.setWeb3(APP.network.url);
+      }
       try {
         APP.accounts = await utils.getAccounts();
       } catch(e) {
@@ -58,16 +68,15 @@ const VueApp = new Vue({
         await localforage.setItem('wishereum-userwishes', {});
       }
       
-      try {
-        APP.contract = await utils.getContract(wishJSON, network[APP.network.id]);
-      } catch(e) {
-        console.log('wrong network');
-      }
+      APP.contract = await utils.getContract(wishJSON, APP.contractAddress);
+      
       //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
       
       this.$emit('update');
       APP.ethusd = (await ethInfo).price.usd;
       this.$emit('updateCost');
+      
+      APP.initialized = true;
     },
     //jshint ignore:end
     update() {

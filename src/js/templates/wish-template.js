@@ -10,14 +10,15 @@ export default `
           <md-image md-src="/img/well.jpg"></md-image>
         </div>
     
-        
-        <md-whiteframe md-elevation="1" v-for="(wish, key) in wishes" class="whiteframe">
-          <div class="wish">{{ wish[0] }}</div>
-          <div class="amount">{{ wish[1] }} ETH</div>
-          <div class="address">From: {{ wish[2] }}</div>
-        </md-whiteframe>
+        <router-link v-for="(wish, key) in wishes" :to="'/wish/' + key" exact>
+          <md-whiteframe md-elevation="1" class="wish">
+            <div class="text">{{ wish[0] }}</div>
+            <div class="amount">{{ wish[1] }} ETH</div>
+            <div class="address">From: {{ wish[2] }}</div>
+          </md-whiteframe>
+        </router-link>
         
       </md-layout>
     </md-layout>
   </div>
-`
+`;

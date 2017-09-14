@@ -11,16 +11,26 @@ export default {
   },
   
   created() {
-    this.$parent.$off('update');
-    this.$parent.$on('update', () => {
+    if (APP.initialized) this.load();
+    else {
+      this.$parent.$off('update');
+      this.$parent.$on('update', this.load);
+    }
+  },
+  
+  methods: {
+    load() {
       localforage.getItem('wishereum-userwishes').then((wishes) => {
         this.wishes = wishes || {};
         this.update();
       });
-    });
-  },
-  
-  methods: {
+    },
+    refresh() {
+      localforage.setItem('wishereum-userwishes', this.wishes).then(() => {
+        console.log('stored wishes locally');
+      });
+      this.$forceUpdate();
+    },
     //jshint ignore:start
     async update() {
       const wishes = this.wishes;
@@ -36,15 +46,12 @@ export default {
           //convert contribution to ether amount
           wish[1] = web3.fromWei(wish[1], 'ether').toNumber();
           this.wishes[i] = wish;
+          this.refresh();
         } else {
           console.log('local wish', i);
         }
       }
-      
-      localforage.setItem('wishereum-userwishes', this.wishes).then(() => {
-        console.log('stored wishes locally');
-      });
-      this.$forceUpdate();
+      this.refresh();
     }
     //jshint ignore:end
   },

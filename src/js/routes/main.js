@@ -13,8 +13,11 @@ export default {
   },
   
   created() {
-    this.$parent.$off('updateCost');
+    if (APP.initialized) this.updateCost('');
+    else {
+      this.$parent.$off('updateCost');
     this.$parent.$on('updateCost', () => this.updateCost(''));
+    }
   },
   
   methods: {
