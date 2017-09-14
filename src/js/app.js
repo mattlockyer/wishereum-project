@@ -29,6 +29,7 @@ const VueApp = new Vue({
   el: '#app',
   router,
   data: {
+    router,
     menu: router.options.routes
   },
   created() {
@@ -80,6 +81,7 @@ const VueApp = new Vue({
     },
     //jshint ignore:end
     noAccount() {
+      APP.offchain = true;
       this.menu[1].visible = false;
       this.menu[2].visible = false;
     },

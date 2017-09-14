@@ -14,6 +14,11 @@ export default {
           </div>
           
           <p>Wishereum allows anyone to make a <strong>permanent</strong> wish on the Ethereum Blockchain</p>
+          <p v-if="APP.offchain">
+          
+            METAMASK
+          
+          </p>
         
         </md-layout>
       </md-layout>

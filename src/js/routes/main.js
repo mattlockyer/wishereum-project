@@ -34,17 +34,20 @@ export default {
       }, 50);
     },
     //jshint ignore:start
-    async submit() {
-      try {
-        const tx = await APP.contract.makeWish(this.wish, {
-          from: APP.accounts[0],
-          value: web3.toWei(this.amount, 'ether'),
-          gas: 250000
-        });
-        console.log(tx);
-      } catch (e) {
+    submit() {
+      APP.wishPromise = APP.contract.makeWish(this.wish, {
+        from: APP.accounts[0],
+        value: web3.toWei(this.amount, 'ether'),
+        gas: 250000
+      });
+      //catch rejection
+      APP.wishPromise.catch((e) => {
         console.log('user rejected or error', e);
-      }
+        APP.wishPromise = null;
+        this.$parent.router.push('/');
+      });
+      //go to pending wish
+      this.$parent.router.push('wish/pending');
     }
     //jshint ignore:end
   },
