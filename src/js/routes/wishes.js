@@ -46,7 +46,7 @@ export default {
           this.wishes[i] = wish;
           this.refresh();
         } else {
-          console.log('local wish', i);
+          //console.log('local wish', i);
         }
       }
       

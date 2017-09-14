@@ -6,7 +6,7 @@
 /**************************************
 * Get Web3
 **************************************/
-const getWeb3 = (fallbackURL = 'http://localhost:8545') => {
+const getWeb3 = (fallbackURL = 'http://localhost:8545', web3 = window.web3) => {
   if (web3 !== undefined) {
     web3 = new Web3(web3.currentProvider);
   } else {

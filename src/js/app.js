@@ -50,14 +50,14 @@ const VueApp = new Vue({
       const network = await utils.getNetwork();
       if (network.id !== 4) {
         console.log('MetaMask: wrong network');
-        this.menu[1].visible = false;
-        this.menu[2].visible = false;
         utils.setWeb3(APP.network.url);
+        this.noAccount();
       }
       try {
         APP.accounts = await utils.getAccounts();
       } catch(e) {
         APP.accounts = ['0x'];
+        this.noAccount();
       }
       //check user
       let user = APP.user = await localforage.getItem('wishereum-user');
@@ -79,6 +79,10 @@ const VueApp = new Vue({
       APP.initialized = true;
     },
     //jshint ignore:end
+    noAccount() {
+      this.menu[1].visible = false;
+      this.menu[2].visible = false;
+    },
     update() {
       this.$emit('update');
       this.$emit('updateCost');
