@@ -10,7 +10,7 @@ const concat = require('gulp-concat');
 const livereload = require('gulp-livereload');
 //const server = require('gulp-express');
 //const shell = require('gulp-shell');
-//const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const browserify = require('browserify');
@@ -29,12 +29,17 @@ gulp.task('babel', function() {
   return browserify({
       entries,
       debug: true,
-  }).transform('babelify', { presets: ['es2015'] })
+  }).transform('babelify', {
+    presets: ['env'],
+    //plugins: ['transform-regenerator']
+  })
     .bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
+    
+    .pipe(uglify())
+    
     .pipe(sourcemaps.init({loadMaps: true}))
-    //.pipe(uglify())
     .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/js/'))
@@ -52,6 +57,14 @@ gulp.task('bundle', ['browserify'], function() {
 gulp.task('move', () => {
   return gulp.src(staticSources)
     .pipe(gulp.dest('./dist'))
+    .pipe(livereload());
+});
+
+gulp.task('compress', () => {
+  return gulp.src('./dist/js/app.js')
+    .pipe(uglify())
+    .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+    .pipe(gulp.dest('./dist/js'))
     .pipe(livereload());
 });
 

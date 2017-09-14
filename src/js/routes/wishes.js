@@ -27,9 +27,6 @@ export default {
       });
     },
     refresh() {
-      localforage.setItem('wishereum-wishes', this.wishes).then(() => {
-        console.log('stored wishes locally');
-      });
       this.$forceUpdate();
     },
     //jshint ignore:start
@@ -49,6 +46,10 @@ export default {
           //console.log('local wish', i);
         }
       }
+      localforage.setItem('wishereum-wishes', this.wishes).then(() => {
+        console.log('stored wishes locally');
+      });
+      this.refresh();
       
     }
     //jshint ignore:end

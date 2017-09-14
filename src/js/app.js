@@ -1,7 +1,6 @@
 
 
 //app.js
-import VueMaterial from 'vue-material';
 import router from './router';
 import Theme from './theme';
 
@@ -12,6 +11,7 @@ import wishJSON from '../../build/contracts/Wish.json';
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
+
 Theme.init();
 
 const APP = window.APP = {
@@ -34,6 +34,11 @@ const VueApp = new Vue({
     router,
     menu: router.options.routes,
     snackbarMessage: 'message'
+  },
+  watch: {
+    $route: function() {
+      this.update();
+    }
   },
   created() {
     setTimeout(() => this.init(), 500);

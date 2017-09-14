@@ -8,7 +8,7 @@ export default {
         <md-layout md-flex="35" md-flex-xsmall="80" md-align="center">
           
           <div>
-            <md-image md-src="/img/well.jpg"></md-image>
+            <img src="/img/well.jpg" />
           </div>
           
           <h2>The Ethereum Wishing Well</h2>

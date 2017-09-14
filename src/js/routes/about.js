@@ -10,7 +10,7 @@ export default {
           <h2>An Ethereum Wishing Well</h2>
           
           <div>
-            <md-image md-src="/img/well.jpg"></md-image>
+            <img src="/img/well.jpg" />
           </div>
           
           <p>Wishereum allows anyone to make a <strong>permanent</strong> wish on the Ethereum Blockchain</p>
