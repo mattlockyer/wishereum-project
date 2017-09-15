@@ -71,7 +71,9 @@ export default {
             
             <md-input-container md-theme="second">
               <label>Amount (ETH)</label>
-              <md-input ref="amount" v-model="amount" v-on:change="updateCost" type="number" step="0.001" placeholder="0.001"></md-input>
+              <md-input ref="amount" v-model="amount" v-on:change="updateCost"
+                type="number" step="0.001" placeholder="0.001" min="0.001"
+              ></md-input>
             </md-input-container>
             
             <md-button v-on:click="submit" class="md-raised">Make Wish</md-button>

@@ -42,7 +42,7 @@ contract Wish {
   * public methods
   **************************************/
   function makeWish(string wish) payable returns (bool) {
-    if (msg.value < 1) revert();
+    if (msg.value < 1 finney) revert();
     balance += msg.value;
     indicies[msg.sender].push(wishes.length);
     wishes.push(WishStruct(wish, msg.value, msg.sender));

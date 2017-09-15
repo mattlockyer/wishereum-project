@@ -9,6 +9,7 @@ contract('Wish', (accounts) => {
   let wish;
   const owner = accounts[0];
   const random = accounts[1];
+  const finney = 1000000000000000;
 
   it('should have a deployed address', async () => {
     wish = await Wish.deployed();
@@ -31,13 +32,23 @@ contract('Wish', (accounts) => {
   /**************************************
   * Wishes
   **************************************/
+
+  it('should have undefined tx if amount too low', async () => {
+    let tx;
+    try {
+      tx = await wish.makeWish('random wish', { value: finney - 1, from: random });
+    } catch (e) {
+      console.log('exception caught');
+    }
+    assert(tx === undefined, 'non-owner cannot get balance');
+  });
   
   it('make a lot of wishes', async () => {
     let tx;
     for (let i = 0; i < 10; i++) {
-      tx = await wish.makeWish('random wish number ' + (i+1), { value: 1, from: random });
+      tx = await wish.makeWish('random wish number ' + (i+1), { value: finney, from: random });
       assert(tx !== undefined, 'wish transaction');
-      tx = await wish.makeWish('owner wish number ' + (i+1), { value: 1, from: owner });
+      tx = await wish.makeWish('owner wish number ' + (i+1), { value: finney, from: owner });
       assert(tx !== undefined, 'wish transaction');
     }
     assert(true, 'wishes made');

@@ -7,7 +7,7 @@ import Theme from './theme';
 import utils from './web3-utils';
 
 import wishJSON from '../../build/contracts/Wish.json';
-//import deployer from './tests/deploy-wish';
+import deployer from './tests/deploy-wish';
 
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
@@ -24,7 +24,7 @@ const APP = window.APP = {
     name: 'rinkeby',
     url: 'https://rinkeby.infura.io/'
   },
-  contractAddress: '0x6fD022CfF6d7512B6E662014662DCd467BBA9BcA'
+  contractAddress: '0x66F5495e8e26Bb525A8CdAe9099d076326b966C3'
 };
 
 const VueApp = new Vue({
@@ -68,6 +68,10 @@ const VueApp = new Vue({
         APP.accounts = ['0x'];
         this.noAccount();
       }
+      
+      //if we need to deploy again
+      window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
+      
       //check user
       let user = APP.user = await localforage.getItem('wishereum-user');
       if (user !== APP.accounts[0]) {
@@ -78,8 +82,6 @@ const VueApp = new Vue({
       }
       
       APP.contract = await utils.getContract(wishJSON, APP.contractAddress);
-      
-      //window.deployWish = () => deployer.deploy(wishJSON, APP.accounts[0], 4000000);
       
       this.$emit('update');
       APP.ethusd = (await ethInfo).price.usd;
