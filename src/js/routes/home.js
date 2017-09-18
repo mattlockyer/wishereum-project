@@ -1,6 +1,28 @@
 
 
 export default {
+  
+  data() {
+    return {
+      loaded: false,
+      offchain: true
+    };
+  },
+  
+  created() {
+    if (APP.initialized) this.load();
+    else {
+      this.$parent.$off('update');
+      this.$parent.$on('update', this.load);
+    }
+  },
+  
+  methods: {
+    load() {
+      this.offchain = APP.offchain;
+      this.loaded = true;
+    },
+  },
 
   template: `
     <div class="page">
@@ -15,7 +37,7 @@ export default {
           
           <p>Make a <strong>permanent</strong> wish on the Ethereum Blockchain</p>
           
-          <md-layout md-flex="100" md-align="center">
+          <md-layout v-if="loaded && !offchain" md-flex="100" md-align="center">
             <router-link to="/wish" exact v-on:click.native="updateRoute">
               <md-button class="md-raised">Make a Wish</md-button>
             </router-link>

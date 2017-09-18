@@ -6,7 +6,8 @@ export default {
   
   data() {
     return {
-      wishes: {}
+      wishesObject: {},
+      wishes: []
     };
   },
   
@@ -22,7 +23,7 @@ export default {
   methods: {
     load() {
       localforage.getItem('wishereum-wishes').then((wishes) => {
-        this.wishes = wishes || {};
+        this.wishesObject = wishes || {};
         this.update();
       });
     },
@@ -35,20 +36,25 @@ export default {
       const totalWishes = (await APP.contract.totalWishes.call()).toNumber();
       //loop through and fetch each wish from the blockchain, if we don't already have it stored locally
       for (let i = 0; i < totalWishes; i++) {
-        if (this.wishes[i] === undefined) {
+        if (this.wishesObject[i] === undefined) {
           console.log('fetching wish', i);
           const wish = await APP.contract.wishes.call(i);
           //convert contribution to ether amount
           wish[1] = web3.fromWei(wish[1], 'ether').toNumber();
-          this.wishes[i] = wish;
+          this.wishesObject[i] = wish;
           this.refresh();
         } else {
           //console.log('local wish', i);
         }
       }
-      localforage.setItem('wishereum-wishes', this.wishes).then(() => {
+      //store wishes as object
+      localforage.setItem('wishereum-wishes', this.wishesObject).then(() => {
         console.log('stored wishes locally');
       });
+      
+      //create display array of wishes object
+      this.wishes = Object.keys(this.wishesObject).map((k) => this.wishesObject[k]).sort((a, b) => a[1] < b[1]);
+      
       this.refresh();
       
     }
