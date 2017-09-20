@@ -53,7 +53,13 @@ export default {
       });
       
       //create display array of wishes object
-      this.wishes = Object.keys(this.wishesObject).map((k) => this.wishesObject[k]).sort((a, b) => a[1] < b[1]);
+      this.wishes = Object.keys(this.wishesObject).map((k) => {
+        const arr = this.wishesObject[k];
+        arr[3] = k;
+        return arr;
+      }).sort((a, b) => b[1] - a[1]);
+      
+      console.log(this.wishes);
       
       this.refresh();
       

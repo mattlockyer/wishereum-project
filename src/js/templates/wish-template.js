@@ -10,7 +10,7 @@ export default `
           <img src="/img/well.png" />
         </div>
     
-        <router-link v-for="(wish, key) in wishes" :to="'/wish/' + key" exact>
+        <router-link v-for="(wish, key) in wishes" :to="'/wish/' + (wish[3] ? wish[3] : key)" exact>
           <md-whiteframe md-elevation="1" class="wish">
             <div class="text">{{ wish[0] }}</div>
             <div class="amount" v-if="wish[1] !== 'pending'">{{ wish[1] }} ETH</div>
