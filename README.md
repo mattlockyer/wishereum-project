@@ -2,7 +2,7 @@
 
 # Wishereum
 
-An wishing well on the Ethereum blockchain (Rinkeby).
+A wishing well on the Ethereum blockchain (Rinkeby).
 
 ## Getting Started
 
